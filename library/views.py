@@ -48,6 +48,11 @@ class BookViewSet(viewsets.ModelViewSet):
 class MemberViewSet(viewsets.ModelViewSet):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+    @action(detail=True, methods=['get'], urlpath='top-active')
+    def top_active(self, request):
+        top_memebers = Member.objects.annotate(num_loans=models.Count('loans')).order_by('-num_loans')[:5]
+        serializer= self.get_se
+    
 
 class LoanViewSet(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
